@@ -1,0 +1,35 @@
+{
+  "name": "its-mieger/lara-ext",
+  "description": "Useful extensions of laravel for common use cases",
+  "type": "library",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Christopher Mieger",
+      "email": "info@its-mieger.de"
+    }
+  ],
+  "require": {
+    "its-mieger/obj": "^1.3"
+  },
+  "repositories": [
+    {
+      "type": "hg",
+      "url": "ssh://hg@bitbucket.org/its-mieger/obj"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-0": {
+      "": "test/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "6.5.5",
+    "orchestra/testbench": "^3.5"
+  }
+}
