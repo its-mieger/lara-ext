@@ -7,6 +7,12 @@ It also includes a helper file for IDE auto completion.
 So far this includes:
 * Collection macros
 
+## Installation
+
+After updating composer, add the service provider to the providers array in config/app.php
+
+	ItsMieger\LaravelExt\Provider\LaraExtServiceProvider::class,
+
 ##Collection macros
 Following macros extend the `Illuminate\Support\Collection`:
 

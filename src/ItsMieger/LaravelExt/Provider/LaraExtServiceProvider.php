@@ -6,7 +6,7 @@
 
 	use Illuminate\Support\ServiceProvider;
 
-	class LaravelExtServiceProvider extends ServiceProvider
+	class LaraExtServiceProvider extends ServiceProvider
 	{
 		const PACKAGE_NAME = 'itsMiegerLaravelExt';
 

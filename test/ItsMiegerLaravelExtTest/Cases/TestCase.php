@@ -11,7 +11,7 @@
 
 	use ItsMieger\Obj\Obj;
 	use Orchestra\Testbench\TestCase as OrchestraTestCase;
-	use ItsMieger\LaravelExt\Provider\LaravelExtServiceProvider;
+	use ItsMieger\LaravelExt\Provider\LaraExtServiceProvider;
 
 	class TestCase extends OrchestraTestCase
 	{
@@ -31,7 +31,7 @@
 		 */
 		protected function getPackageProviders($app) {
 			return [
-				LaravelExtServiceProvider::class,
+				LaraExtServiceProvider::class,
 			];
 		}
 	}
