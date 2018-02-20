@@ -485,4 +485,154 @@
 			$this->assertEquals(1, collect(['a' => 1, 'b' => 2, 'a1' => 4])->compareToValuesAssoc($collection));
 			$this->assertEquals(1, collect(['a' => 1, 2, 'c' => 3, 'd' => 5])->compareToValuesAssoc($collection));
 		}
+
+		public function testMaxByGetter() {
+
+			$mock1 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock1
+				->expects($this->once())
+				->method('getA')
+				->willReturn(7);
+
+			$mock2 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock2
+				->expects($this->once())
+				->method('getA')
+				->willReturn(9);
+
+			$mock3 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock3
+				->expects($this->once())
+				->method('getA')
+				->willReturn(5);
+
+			$collection = collect([$mock1, $mock2, $mock3]);
+
+			$this->assertSame($mock2, $collection->maxBy('getA()'));
+
+		}
+
+		public function testMaxByGetterClosure() {
+
+			$mock1 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock1
+				->expects($this->once())
+				->method('getA')
+				->willReturn(7);
+
+			$mock2 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock2
+				->expects($this->once())
+				->method('getA')
+				->willReturn(9);
+
+			$mock3 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock3
+				->expects($this->once())
+				->method('getA')
+				->willReturn(5);
+
+			$collection = collect([$mock1, $mock2, $mock3]);
+
+			$this->assertSame($mock2, $collection->maxBy(function($item) { return $item->getA(); }));
+
+		}
+
+		public function testMaxByGetterArrayKey() {
+
+			$v1 = [
+				'value' => 7,
+				'name' => 'a'
+			];
+
+			$v2 = [
+				'value' => 9,
+				'name'  => 'b'
+			];
+
+			$v3 = [
+				'value' => 5,
+				'name'  => 'c'
+			];
+
+			$collection = collect([$v1, $v2, $v3]);
+
+			$this->assertSame($v2, $collection->maxBy('value'));
+
+		}
+
+		public function testMinByGetter() {
+
+			$mock1 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock1
+				->expects($this->once())
+				->method('getA')
+				->willReturn(7);
+
+			$mock2 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock2
+				->expects($this->once())
+				->method('getA')
+				->willReturn(9);
+
+			$mock3 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock3
+				->expects($this->once())
+				->method('getA')
+				->willReturn(5);
+
+			$collection = collect([$mock1, $mock2, $mock3]);
+
+			$this->assertSame($mock3, $collection->minBy('getA()'));
+
+		}
+
+		public function testMinByGetterClosure() {
+
+			$mock1 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock1
+				->expects($this->once())
+				->method('getA')
+				->willReturn(7);
+
+			$mock2 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock2
+				->expects($this->once())
+				->method('getA')
+				->willReturn(9);
+
+			$mock3 = $this->getMockBuilder('MyClass')->setMethods(['getA'])->getMock();
+			$mock3
+				->expects($this->once())
+				->method('getA')
+				->willReturn(5);
+
+			$collection = collect([$mock1, $mock2, $mock3]);
+
+			$this->assertSame($mock3, $collection->minBy(function($item) { return $item->getA(); }));
+
+		}
+
+		public function testMinByGetterArrayKey() {
+
+			$v1 = [
+				'value' => 7,
+				'name' => 'a'
+			];
+
+			$v2 = [
+				'value' => 9,
+				'name'  => 'b'
+			];
+
+			$v3 = [
+				'value' => 5,
+				'name'  => 'c'
+			];
+
+			$collection = collect([$v1, $v2, $v3]);
+
+			$this->assertSame($v3, $collection->minBy('value'));
+
+		}
 	}

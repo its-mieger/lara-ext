@@ -126,5 +126,23 @@
 			public function compareToValuesAssoc($items) {
 
 			}
+
+			/**
+			 * Gets the item which returns the maximum value for specified callback. It uses ITSMieger object comparision to compare callback values
+			 * @param callable|string $callback
+			 * @return mixed The item with maximum value
+			 */
+			public function maxBy($callback) {
+
+			}
+
+			/**
+			 * Gets the item which returns the minimum value for specified callback. It uses ITSMieger object comparision to compare callback values
+			 * @param callable|string $callback
+			 * @return mixed The item with minimum value
+			 */
+			public function minBy($callback) {
+
+			}
 		}
 	}

@@ -183,3 +183,51 @@
 
 		throw new RuntimeException('Inconsistent object compare detected');
 	});
+
+	Collection::macro('maxBy', function ($callback) {
+		$maxValue = null;
+		$maxItem = null;
+		$firstCycle = true;
+
+		$callback = $this->valueRetriever($callback);
+
+		foreach($this->items as $currItem) {
+
+			// get the value of the current item
+			$currValue = $callback($currItem);
+
+			// remember maximum
+			if ($firstCycle || Obj::greaterThan($currValue, $maxValue)) {
+				$maxValue = $currValue;
+				$maxItem = $currItem;
+
+				$firstCycle = false;
+			}
+		}
+
+		return $maxItem;
+	});
+
+	Collection::macro('minBy', function ($callback) {
+		$maxValue = null;
+		$maxItem = null;
+		$firstCycle = true;
+
+		$callback = $this->valueRetriever($callback);
+
+		foreach($this->items as $currItem) {
+
+			// get the value of the current item
+			$currValue = $callback($currItem);
+
+			// remember maximum
+			if ($firstCycle || Obj::lessThan($currValue, $maxValue)) {
+				$maxValue = $currValue;
+				$maxItem = $currItem;
+
+				$firstCycle = false;
+			}
+		}
+
+		return $maxItem;
+	});

@@ -4,8 +4,52 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e8d93c2bd9ae4477b57a94775e46b08",
+    "content-hash": "48f31fc9068dde9bd3e86592c8d98272",
     "packages": [
+        {
+            "name": "funkjedi/composer-include-files",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/funkjedi/composer-include-files.git",
+                "reference": "5e96f2e46537d99b8b72662796955dba739e251f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/funkjedi/composer-include-files/zipball/5e96f2e46537d99b8b72662796955dba739e251f",
+                "reference": "5e96f2e46537d99b8b72662796955dba739e251f",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "ComposerIncludeFiles\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "ComposerIncludeFiles\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tim Robertson",
+                    "email": "funkjedi@gmail.com"
+                }
+            ],
+            "description": "Include files at a higher priority than autoload files.",
+            "homepage": "https://github.com/funkjedi/composer-include-files",
+            "keywords": [
+                "autoload",
+                "composer"
+            ],
+            "time": "2016-12-23T18:15:30+00:00"
+        },
         {
             "name": "its-mieger/obj",
             "version": "1.3.1",
@@ -812,21 +856,21 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v3.5.3",
+            "version": "v3.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "8be931a877025680524046987f4822405c3291be"
+                "reference": "fd032489df469d611a264083e62db96677c9061e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/8be931a877025680524046987f4822405c3291be",
-                "reference": "8be931a877025680524046987f4822405c3291be",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/fd032489df469d611a264083e62db96677c9061e",
+                "reference": "fd032489df469d611a264083e62db96677c9061e",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "~5.5.20",
-                "orchestra/testbench-core": "~3.5.5",
+                "laravel/framework": "~5.5.34",
+                "orchestra/testbench-core": "~3.5.9",
                 "php": ">=7.0",
                 "phpunit/phpunit": "~6.0"
             },
@@ -864,20 +908,20 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2017-12-25T11:41:02+00:00"
+            "time": "2018-02-20T05:30:39+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v3.5.8",
+            "version": "v3.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "db38993c4fc2d54684418c224cd7edfba7770031"
+                "reference": "997a5dfade0cfb9c88d5e1f2bf4ff76900311333"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/db38993c4fc2d54684418c224cd7edfba7770031",
-                "reference": "db38993c4fc2d54684418c224cd7edfba7770031",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/997a5dfade0cfb9c88d5e1f2bf4ff76900311333",
+                "reference": "997a5dfade0cfb9c88d5e1f2bf4ff76900311333",
                 "shasum": ""
             },
             "require": {
@@ -930,7 +974,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2018-02-18T09:54:23+00:00"
+            "time": "2018-02-20T04:07:40+00:00"
         },
         {
             "name": "paragonie/random_compat",

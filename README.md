@@ -2,10 +2,12 @@
 This library adds commonly use functionality to the Laravel PHP framework. It also integrates the
 `its-mieger/obj` package (helps to make objects behave like native data types) well to laravel.
 
-It also includes a helper file for IDE auto completion.
  
 So far this includes:
 * Collection macros
+* Improved helper functions
+
+It also includes a helper file for IDE auto completion.
 
 ## Installation
 
@@ -27,4 +29,19 @@ Following macros extend the `Illuminate\Support\Collection`:
 | `sortObj`			| sort using object comparision
 | `sortObjDesc`		| sort in descending order using object comparision
 | `compareToValues`		| compares the collection values to another collection 
-| `compareToValuesAssoc`	| compares the collection values and keys to another collection 
+| `compareToValuesAssoc`	| compares the collection values and keys to another collection
+| `maxBy`	| get the item returning the maximum value for specified callback
+| `minBy`	| get the item returning the minimum value for specified callback
+ 
+## Helper improvements
+
+### data_get
+The `data_get` helper now supports receiving data from getters:
+
+	data_get('getA()', $target);
+	data_get('test.getA()', $target);
+	
+This is also very handy in other methods using `data_get` as many collection methods do:
+
+	$collection->sortBy('getUnitPrice()');
+		
