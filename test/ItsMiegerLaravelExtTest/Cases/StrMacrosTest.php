@@ -43,9 +43,18 @@
 			$this->assertSame('c', $vC);
 		}
 
+		public function testExtractLeftLessWantedAppend() {
+
+			[$vA, $vB, $vC] = Str::extract('a:b:c:d', ':', 3, null, true);
+
+			$this->assertSame('a', $vA);
+			$this->assertSame('b', $vB);
+			$this->assertSame('c:d', $vC);
+		}
+
 		public function testExtractLeftDefaultValue() {
 
-			[$vA, $vB, $vC, $vD, $vE] = Str::extract('a:b:c', ':', 5, ARRAY_PAD_LEFT,'def');
+			[$vA, $vB, $vC, $vD, $vE] = Str::extract('a:b:c', ':', 5, 'def');
 
 			$this->assertSame('a', $vA);
 			$this->assertSame('b', $vB);
@@ -57,7 +66,7 @@
 
 		public function testExtractRight() {
 
-			[$vC, $vD, $vE] = Str::extract('a:b:c', ':', 3, ARRAY_PAD_RIGHT);
+			[$vC, $vD, $vE] = Str::extract('a:b:c', ':', -3);
 
 			$this->assertSame('a', $vC);
 			$this->assertSame('b', $vD);
@@ -66,7 +75,7 @@
 
 		public function testExtractRightMoreWanted() {
 
-			[$vA, $vB, $vC, $vD, $vE] = Str::extract('a:b:c', ':', 5, ARRAY_PAD_RIGHT);
+			[$vA, $vB, $vC, $vD, $vE] = Str::extract('a:b:c', ':', -5);
 
 			$this->assertSame(null, $vA);
 			$this->assertSame(null, $vB);
@@ -77,16 +86,25 @@
 
 		public function testExtractRightLessWanted() {
 
-			[$vC, $vD, $vE] = Str::extract('a:b:c:d', ':', 3, ARRAY_PAD_RIGHT);
+			[$vC, $vD, $vE] = Str::extract('a:b:c:d', ':', -3);
 
 			$this->assertSame('a', $vC);
 			$this->assertSame('b', $vD);
 			$this->assertSame('c', $vE);
 		}
 
+		public function testExtractRightLessWantedAppend() {
+
+			[$vC, $vD, $vE] = Str::extract('a:b:c:d', ':', -3, null, true);
+
+			$this->assertSame('a', $vC);
+			$this->assertSame('b', $vD);
+			$this->assertSame('c:d', $vE);
+		}
+
 		public function testExtractRightDefaultValue() {
 
-			[$vA, $vB, $vC, $vD, $vE] = Str::extract('a:b:c', ':', 5, ARRAY_PAD_RIGHT, 'def');
+			[$vA, $vB, $vC, $vD, $vE] = Str::extract('a:b:c', ':', -5, 'def');
 
 			$this->assertSame('def', $vA);
 			$this->assertSame('def', $vB);

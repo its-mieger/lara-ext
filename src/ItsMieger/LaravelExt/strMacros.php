@@ -1,33 +1,29 @@
 <?php
 	use Illuminate\Support\Str;
 
-	if (!defined('ARRAY_PAD_LEFT'))
-		define('ARRAY_PAD_LEFT', 0);
-	if (!defined('ARRAY_PAD_RIGHT'))
-		define('ARRAY_PAD_RIGHT', 1);
+	Str::macro('extract', function($haystack, $delimiter, $length, $defaultValue = null, $appendOverflowing = false) {
+		$absLength = abs($length);
 
+		// explode string
+		if ($appendOverflowing)
+			$sp = explode($delimiter, $haystack, $absLength);
+		else
+			$sp = explode($delimiter, $haystack);
 
-	Str::macro('extract', function($haystack, $delimiter, $length, $padType = ARRAY_PAD_LEFT, $defaultValue = null) {
-		$sp = explode($delimiter, $haystack);
 		$numParts = count($sp);
 
-		if ($numParts == $length) {
+		if ($numParts == $absLength) {
 			return $sp;
 		}
-		elseif ($numParts > $length) {
-			return array_slice($sp, 0, $length);
+		elseif ($numParts > $absLength) {
+			return array_slice($sp, 0, $absLength);
+		}
+		elseif ($length > 0) {
+			// pad right
+			return array_pad($sp, $absLength, $defaultValue);
 		}
 		else {
-			switch ($padType) {
-
-				case ARRAY_PAD_LEFT:
-					return array_pad($sp, $length, $defaultValue);
-
-				case ARRAY_PAD_RIGHT:
-					return array_merge(array_fill(0, $length - $numParts, $defaultValue), $sp);
-
-				default:
-					throw new \InvalidArgumentException('Invalid array pad type "' . $padType . '"');
-			}
+			// pad left
+			return array_merge(array_fill(0, $absLength - $numParts, $defaultValue), $sp);
 		}
 	});
