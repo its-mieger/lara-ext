@@ -1,5 +1,8 @@
 <?php return [
 
 	// import collection macros
-	'collectionMacros' => true
+	'collectionMacros' => true,
+
+    // str macros
+    'strMacros' => true,
 ];

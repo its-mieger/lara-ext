@@ -9,11 +9,16 @@
 	namespace ItsMiegerLaravelExtTest\Cases\Provider;
 
 
+	use Illuminate\Support\Str;
 	use ItsMiegerLaravelExtTest\Cases\TestCase;
 
 	class LaraExtServiceProviderTest extends TestCase
 	{
-		public function testMacrosRegistered() {
+		public function testCollectionMacrosRegistered() {
 			$this->assertEquals([], collect()->diffBy([], function() {return 0;})->all());
+		}
+
+		public function testStringMacrosRegistered() {
+			$this->assertEquals([], Str::extract('', ':', 0));
 		}
 	}

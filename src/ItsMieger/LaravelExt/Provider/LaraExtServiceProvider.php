@@ -8,7 +8,7 @@
 
 	class LaraExtServiceProvider extends ServiceProvider
 	{
-		const PACKAGE_NAME = 'itsMiegerLaravelExt';
+		const PACKAGE_NAME = 'laraExt';
 
 		protected $packageRoot = __DIR__ . '/../../../..';
 
@@ -19,9 +19,18 @@
 		 * @return void
 		 */
 		public function boot() {
-			// include helpers
+
+			$this->publishes([
+				$this->packageRoot . '/config/config.php' => config_path(self::PACKAGE_NAME . '.php'),
+			]);
+
+			// include collection macros
 			if (config(self::PACKAGE_NAME . '.collectionMacros', true))
 				include dirname(__DIR__) . '/collectionMacros.php';
+
+			// include string macros
+			if (config(self::PACKAGE_NAME . '.strMacros', true))
+				include dirname(__DIR__) . '/strMacros.php';
 		}
 
 		/**

@@ -145,4 +145,20 @@
 
 			}
 		}
+
+		class Str {
+			/**
+			 * Extracts values using a given delimiter. The resulting array will always have the given length
+			 * @param string $haystack The haystack
+			 * @param string $delimiter The delimiter
+			 * @param int $length The number of elements in the return array
+			 * @param int $padType The pad type (ARRAY_PAD_LEFT or ARRAY_PAD_RIGHT)
+			 * @param null $defaultValue The default value for the array elements
+			 * @return string[] The return array
+			 */
+			public static function extract($haystack, $delimiter, $length, $padType = ARRAY_PAD_LEFT, $defaultValue = null) : array {
+
+			}
+
+		}
 	}

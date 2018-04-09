@@ -33,6 +33,11 @@
     }
   },
   "extra": {
+    "laravel": {
+      "providers": [
+        "ItsMieger\\LaravelExt\\Provider\\LaraExtServiceProvider"
+      ]
+    },
     "include_files": [
       "src/ItsMieger/LaravelExt/helperOverrides.php"
     ]
