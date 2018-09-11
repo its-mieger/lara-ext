@@ -6,6 +6,7 @@ This library adds commonly use functionality to the Laravel PHP framework. It al
 So far this includes:
 * Collection macros
 * String macros
+* Additional helpers
 * Improved helper functions
 
 It also includes a helper file for IDE auto completion.
@@ -41,6 +42,12 @@ Following macros extend the `Illuminate\Support\Collection`:
 |-------------------| ------------
 | `extract`			| as explode but with fixed result array length, eg.: `[$a, $b] = Str::extract('a:b:c', ':',  2)`
  
+## Helpers
+
+| Macro 			| Description
+|-------------------| ------------
+| `buffer`			| creates a new `FlushingBuffer` instance
+ 
 ## Helper improvements
 
 ### data_get
@@ -53,3 +60,26 @@ This is also very handy in other methods using `data_get` as many collection met
 
 	$collection->sortBy('getUnitPrice()');
 		
+
+## Flushing buffers
+Flushing buffers implement buffers with a given size which are automatically flushed using a given
+handler function when they are full.
+
+You may create an instance using the `buffer`-helper. It Takes up to three arguments:
+
+	buffer(10, function(data) { /* send data */ });
+	buffer(10, function(data) { /* send data */ }, function() { return collect(); });
+	
+The first argument specifies the buffer size, the second one a handler function which is called
+each time the buffer is full. It receives the buffer data as argument. The third one is optional
+and acts as resolver for the underlying data structure to use. If omitted a simple array is used.
+
+New items are added to the buffer using the `add()`-method. Usually you want the buffer to flushed
+a last time, after all data was added, even if it is not null. To achieve this, simply call the
+`flush()`-method to manually flush the buffer:
+
+	$b = buffer(2, function(data) { /* send data */ });
+	$b->add(1);
+	$b->add(2);
+	$b->add(3);
+	$b->flush();

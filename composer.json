@@ -39,7 +39,8 @@
       ]
     },
     "include_files": [
-      "src/ItsMieger/LaravelExt/helperOverrides.php"
+      "src/ItsMieger/LaravelExt/helperOverrides.php",
+      "src/ItsMieger/LaravelExt/helpers.php"
     ]
   },
   "require-dev": {
