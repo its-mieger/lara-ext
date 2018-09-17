@@ -9,6 +9,40 @@
 		 * @return \ItsMieger\LaravelExt\Util\FlushingBuffer
 		 */
 		function buffer($size, callable $flushHandler, $collectionResolver = null) {
-			return new \ItsMieger\LaravelExt\Util\FlushingBuffer($size, $flushHandler, $collectionResolver);
+			return app(\ItsMieger\LaravelExt\Util\FlushingBuffer::class, [
+				'size'               => $size,
+				'flushHandler'       => $flushHandler,
+				'collectionResolver' => $collectionResolver,
+			]);
+		}
+	}
+
+	if (!function_exists('chunked')) {
+
+		/**
+		 * Calls the given handler with chunks of the provided data. The last chunk's size may by less than the
+		 * specified chunk size. This function "streams" the data using a flushing buffer internally.
+		 * @param \Iterator|IteratorAggregate|ArrayAccess|[] $data The source data
+		 * @param int $size The chunk size
+		 * @param callable $flushHandler Handler function which will receive the chunk data
+		 * @param callable $collectionResolver Resolver for the underlying collection. This is called each time an empty collection is initialized and must return an
+		 * empty collection instance. If omitted an array is used as underlying collection.
+		 */
+		function chunked($data, $size, callable $flushHandler, $collectionResolver = null) {
+
+			// setup buffer
+			$buffer = app(\ItsMieger\LaravelExt\Util\FlushingBuffer::class, [
+				'size'               => $size,
+				'flushHandler'       => $flushHandler,
+				'collectionResolver' => $collectionResolver,
+			]);
+
+			// "stream" to buffer
+			foreach($data as $curr) {
+				$buffer->add($curr);
+			}
+
+			// flush the rest
+			$buffer->flush();
 		}
 	}

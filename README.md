@@ -60,8 +60,9 @@ This is also very handy in other methods using `data_get` as many collection met
 
 	$collection->sortBy('getUnitPrice()');
 		
+## Additional helpers
 
-## Flushing buffers
+### Flushing buffers
 Flushing buffers implement buffers with a given size which are automatically flushed using a given
 handler function when they are full.
 
@@ -83,3 +84,18 @@ a last time, after all data was added, even if it is not null. To achieve this, 
 	$b->add(2);
 	$b->add(3);
 	$b->flush();
+	
+	
+### Chunked streaming
+The native `array_chunk()`-function is very useful when dealing with large data that cannot
+be processed at once. However it does not solve the problem that you might not even be able
+to load all the input data at once. Here the `chunked()`-helper function comes in. See
+following example:
+	
+	$generator = function() { /* generator code */ };
+	
+	chunked($generator, 500, function($chunk) {
+		/* processing code */
+	});
+
+	
