@@ -194,4 +194,38 @@
 			$this->assertEquals(0, $buffer->count());
 
 		}
+
+		public function testFunctionName_autoFlush() {
+			$shouldBeCalled = $this->getMockBuilder(\stdClass::class)
+				->setMethods(['__invoke'])
+				->getMock();
+
+			$shouldBeCalled->expects($this->exactly(1))
+				->method('__invoke')
+				->withConsecutive(
+					[$this->isInstanceOf(Collection::class)]
+				);
+
+			$buffer = new FlushingBuffer(2, $shouldBeCalled, 'collect');
+
+			$buffer->add('A');
+			$buffer->add('B');
+		}
+
+		public function testClassName_autoFlush() {
+			$shouldBeCalled = $this->getMockBuilder(\stdClass::class)
+				->setMethods(['__invoke'])
+				->getMock();
+
+			$shouldBeCalled->expects($this->exactly(1))
+				->method('__invoke')
+				->withConsecutive(
+					[$this->isInstanceOf(Collection::class)]
+				);
+
+			$buffer = new FlushingBuffer(2, $shouldBeCalled, Collection::class);
+
+			$buffer->add('A');
+			$buffer->add('B');
+		}
 	}

@@ -106,10 +106,22 @@
 		 */
 		protected function initCollection() {
 
-			if ($this->collectionResolver)
-				$this->data = call_user_func($this->collectionResolver);
-			else
+			if ($resolver = $this->collectionResolver) {
+				// use collection resolver
+
+				if (is_string($resolver) && !function_exists($resolver)) {
+					// string, but not function name => resolve via service container
+					$this->data = app($resolver, ['size' => $this->bufferSize]);
+				}
+				else {
+					// resolve callable
+					$this->data = call_user_func($resolver);
+				}
+			}
+			else {
+				// simply use array
 				$this->data = [];
+			}
 
 			$this->dataCount = 0;
 		}
