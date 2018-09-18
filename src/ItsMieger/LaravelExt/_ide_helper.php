@@ -11,8 +11,10 @@
 	namespace Illuminate\Support {
 
 		use ArrayAccess;
+		use Generator;
 		use Iterator;
 		use IteratorAggregate;
+		use Traversable;
 
 		class Collection
 		{
@@ -198,4 +200,13 @@
 		 * @param bool $all True to return all matching right side items for each left side item. Else only the first matching item will be returned
 		 */
 		function joined($left, $leftField, $right, $rightField, callable $callback, $all = false) { }
+
+		/**
+		 * Iterates the given cursor and gets and generates an item for each element using "dot" notation
+		 * @param Traversable|Iterator|IteratorAggregate|[]|ArrayAccess|Generator|function $cursor The data
+		 * @param string|\Closure $field The field in "dot" notation or a closure returning the field value
+		 * @param mixed $default The default value. This has no effect if a closure is passed as field
+		 * @return Generator The generator
+		 */
+		function cursor_get($cursor, $field, $default = null) { }
 	}

@@ -190,3 +190,23 @@
 
 		}
 	}
+
+	if (!function_exists('cursor_get')) {
+
+		/**
+		 * Iterates the given cursor and gets and generates an item for each element using "dot" notation
+		 * @param Traversable|Iterator|IteratorAggregate|[]|ArrayAccess|Generator|function $cursor The data
+		 * @param string|\Closure $field The field in "dot" notation or a closure returning the field value
+		 * @param mixed $default The default value. This has no effect if a closure is passed as field
+		 * @return Generator The generator
+		 */
+		function cursor_get($cursor, $field, $default = null) {
+
+			$fieldClosure = $field instanceof \Closure;
+
+			// "stream" to buffer
+			foreach (value($cursor) as $index => $curr) {
+				yield $fieldClosure ? $field($curr, $index) : data_get($curr, $field, $default);
+			}
+		}
+	}

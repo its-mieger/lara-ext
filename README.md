@@ -62,7 +62,7 @@ This is also very handy in other methods using `data_get` as many collection met
 		
 ## Additional helpers
 
-### Flushing buffers
+### buffer()
 Flushing buffers implement buffers with a given size which are automatically flushed using a given
 handler function when they are full.
 
@@ -86,7 +86,7 @@ a last time, after all data was added, even if it is not null. To achieve this, 
 	$b->flush();
 	
 	
-### Chunked streaming
+### chunked()
 The native `array_chunk()`-function is very useful when dealing with large data that cannot
 be processed at once. However it does not solve the problem that you might not even be able
 to load all the input data at once. Here the `chunked()`-helper function comes in. See
@@ -99,7 +99,7 @@ following example:
 	});
 
 	
-### Joined collections
+### joined()
 Often you have to join two collections by a given field and want to process the joined
 value pairs. The `joined()` helper makes this task really easy:
 
@@ -123,3 +123,11 @@ collection. If you need more flexibility you can pass a query builder:
 	joined($collectionA, 'user', User::where('active', true), 'username', function($a, $b) {
 		/* do s.th. here */
 	});
+
+### cursor_get()
+The `cursor_get()` helper iterates the passed items (cursor, collection, array, ...) and
+uses `data_get()` to receive a value for each item which will be returned by the returned
+generator. You may also pass a closure as field parameter which returns the value for
+each item:
+
+	cursor_get($data, 'x.y');
