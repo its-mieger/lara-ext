@@ -99,3 +99,27 @@ following example:
 	});
 
 	
+### Joined collections
+Often you have to join two collections by a given field and want to process the joined
+value pairs. The `joined()` helper makes this task really easy:
+
+	joined($collectionA, 'fieldA', $collectionB, 'fieldB.x', function($a, $b) {
+		/* do s.th. here */
+	});
+	
+The closure receives the value pairs. By default only the first matching value pair is
+processed. But you may specify this by a parameter.
+
+This helper is very flexible. You may pass in generators, closures, any traversables and
+even model names:
+
+	joined($collectionA, 'user', User::class, 'username', function($a, $b) {
+		/* do s.th. here */
+	});
+	
+This would call `User::whereIn('username', /* .. */)->get()` to receive the right side
+collection. If you need more flexibility you can pass a query builder:
+
+	joined($collectionA, 'user', User::where('active', true), 'username', function($a, $b) {
+		/* do s.th. here */
+	});

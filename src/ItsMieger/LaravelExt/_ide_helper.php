@@ -11,6 +11,7 @@
 	namespace Illuminate\Support {
 
 		use ArrayAccess;
+		use Iterator;
 		use IteratorAggregate;
 
 		class Collection
@@ -185,4 +186,16 @@
 		 * empty collection instance. If omitted an array is used as underlying collection. Also a function name or a class name which is resolved via service container may be passed.
 		 */
 		function chunked($data, $size, callable $flushHandler, $collectionResolver = null) { }
+
+		/**
+		 * Calls the given callback with values of left and right collection joined by given field values. NULL values are never treated as equal.
+		 * @param \Closure|Iterator|IteratorAggregate|[] $left The left side collection
+		 * @param string $leftField The left side field to use for joining
+		 * @param \Closure|Iterator|IteratorAggregate|[]|string|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $right The right side collection. This may also be
+		 * a model class name or query builder instance for which queries are automatically executed
+		 * @param string $rightField The right field to use for joining
+		 * @param callable $callback The callback to be called with joined items. Will receive the left side item as first argument and the right side item as second
+		 * @param bool $all True to return all matching right side items for each left side item. Else only the first matching item will be returned
+		 */
+		function joined($left, $leftField, $right, $rightField, callable $callback, $all = false) { }
 	}
