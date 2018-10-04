@@ -210,3 +210,52 @@
 			}
 		}
 	}
+
+	if (!function_exists('db_table')) {
+
+		/**
+		 * Gets the model'stable name
+		 * @param string|\Illuminate\Database\Eloquent\Model The model
+		 * @return string The table name
+		 */
+		function db_table($model) {
+			if (is_string($model))
+				$model = new $model;
+
+			return $model->getTable();
+		}
+	}
+
+	if (!function_exists('db_connection')) {
+
+		/**
+		 * Gets the model's connection
+		 * @param string|\Illuminate\Database\Eloquent\Model $model The model
+		 * @return \Illuminate\Database\Connection The connection
+		 */
+		function db_connection($model) {
+			if ($model instanceof \Illuminate\Database\Eloquent\Relations\Relation)
+				$model = $model->getModel();
+			elseif (is_string($model))
+				$model = new $model;
+
+			return $model->getConnection();
+		}
+
+	}
+
+	if (!function_exists('db_field')) {
+
+		/**
+		 * Gets the model's field name prefixed with the table name
+		 * @param string|\Illuminate\Database\Eloquent\Model $model The model
+		 * @param string $field The model field name
+		 * @return string The model field, eg. "table.field"
+		 */
+		function db_field($model, string $field) {
+			if (is_string($model))
+				$model = new $model;
+
+			return "{$model->getTable()}.{$field}";
+		}
+	}

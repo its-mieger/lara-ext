@@ -47,6 +47,12 @@ Following macros extend the `Illuminate\Support\Collection`:
 | Macro 			| Description
 |-------------------| ------------
 | `buffer`			| creates a new `FlushingBuffer` instance
+| `chunked`			| `array_chunk()` for generators
+| `joined`			| joins two collections and passes the tuples to a callback
+| `cursor_get`		| `data_get()` for collections
+| `db_table`		| gets a model's table name
+| `db_connection`	| gets a model's connection name
+| `db_field`		| prefixes a model's field name with the table name
  
 ## Helper improvements
 
@@ -131,3 +137,23 @@ generator. You may also pass a closure as field parameter which returns the valu
 each item:
 
 	cursor_get($data, 'x.y');
+	
+### db_table()
+
+Gets the table name of a given model:
+
+	db_table(User::class);
+	
+	
+### db_connection()
+
+Gets the connection instance to use for a given model:
+
+	db_connection(User::class);
+	
+### db_field()
+
+Gets the model field prefixed by the model's table name:
+
+	db_field(User::class, 'id');
+	// => users.id
