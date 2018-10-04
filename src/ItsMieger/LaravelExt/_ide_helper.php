@@ -209,4 +209,26 @@
 		 * @return Generator The generator
 		 */
 		function cursor_get($cursor, $field, $default = null) { }
+
+		/**
+		 * Gets the model'stable name
+		 * @param string|\Illuminate\Database\Eloquent\Model The model
+		 * @return string The table name
+		 */
+		function db_table($model) { }
+
+		/**
+		 * Gets the model's connection
+		 * @param string|\Illuminate\Database\Eloquent\Model $model The model
+		 * @return \Illuminate\Database\Connection The connection
+		 */
+		function db_connection($model) { }
+
+		/**
+		 * Gets the model's field name prefixed with the table name
+		 * @param string|\Illuminate\Database\Eloquent\Model $model The model
+		 * @param string $field The model field name
+		 * @return string The model field, eg. "table.field"
+		 */
+		function db_field($model, string $field) { }
 	}
