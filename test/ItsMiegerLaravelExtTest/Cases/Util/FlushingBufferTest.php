@@ -37,6 +37,24 @@
 			$buffer->add('E');
 		}
 
+		public function testArray_NoAutoFlush() {
+			$shouldBeCalled = $this->getMockBuilder(\stdClass::class)
+				->setMethods(['__invoke'])
+				->getMock();
+
+			$shouldBeCalled->expects($this->never())
+				->method('__invoke')
+			;
+
+			$buffer = new FlushingBuffer(0, $shouldBeCalled);
+
+			$buffer->add('A');
+			$buffer->add('B');
+			$buffer->add('C');
+			$buffer->add('D');
+			$buffer->add('E');
+		}
+
 		public function testArray_manualFlush() {
 			$shouldBeCalled = $this->getMockBuilder(\stdClass::class)
 				->setMethods(['__invoke'])

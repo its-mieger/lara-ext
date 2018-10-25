@@ -35,7 +35,7 @@
 
 		/**
 		 * Creates a new instance
-		 * @param int $size The buffer size
+		 * @param int $size The buffer size. You may pass 0 or a negative value if the buffer should not be flushed automatically.
 		 * @param callable $flushHandler Handler function which will be called on flush and receive the buffer contents as first parameter
 		 * @param callable $collectionResolver Resolver for the underlying collection. This is called each time an empty collection is initialized and must return an
 		 * empty collection instance. If omitted an array is used as underlying collection.
@@ -61,7 +61,7 @@
 			++$this->dataCount;
 
 			// do we have to flush the buffer?
-			if ($this->dataCount >= $this->bufferSize)
+			if ($this->bufferSize > 0 && $this->dataCount >= $this->bufferSize)
 				$this->flush();
 
 			return $this;
