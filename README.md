@@ -58,6 +58,7 @@ Following macros extend the `Illuminate\Support\Collection`:
 | `db_connection`	| gets a model's connection name
 | `db_field`		| prefixes a model's field name with the table name
 | `db_field_raw`	| prefixes a model's field name with the table name and quotes it for use in raw SQL expressions
+| `db_quote_identifier`	| quotes the given identifier for use in raw SQL expressions
  
 ## Helper improvements
 
@@ -171,6 +172,16 @@ Gets the table name of a given model:
 Gets the connection instance to use for a given model:
 
 	db_connection(User::class);
+	
+### db_quote_identifier()
+
+Quotes the given identifier for use in raw SQL expressions:
+
+	db_quote_identifier('table');
+	// => `table`
+	
+	db_quote_identifier('table.field');
+	// => `table`.`field`
 	
 ### db_field() and db_field_raw()
 
@@ -298,5 +309,11 @@ User::field('id');
 
 User::fieldRaw('id');
 // => `users`.`id`
+
+User::quoteIdentifier('field');
+// => `field`
+
+User::quoteIdentifier('mytable.field');
+// => `mytable`.`field`
 
 ```

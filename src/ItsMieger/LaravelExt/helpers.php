@@ -291,3 +291,24 @@
 			return $model->getConnection()->getQueryGrammar()->wrap("{$model->getTable()}.{$field}");
 		}
 	}
+
+	if (!function_exists('db_quote_identifier')) {
+
+		/**
+		 * Gets the given identifier for use in raw SQL expressions
+		 * @param null|string|\Illuminate\Database\Connection|\Illuminate\Database\Eloquent\Relations\Relation|\Illuminate\Database\Eloquent\Model $connection The connection for which to get identifier for
+		 * @param string $identifier The identifier name. May contain multiple segments separated by '.'
+		 * @return string The wrapped identifier eg. "`table`.`field`" or "`table`"
+		 */
+		function db_quote_identifier(string $identifier, $connection = null) {
+			if (is_string($connection) || is_null($connection))
+				$connection = \DB::connection($connection);
+			elseif ($connection instanceof \Illuminate\Database\Eloquent\Relations\Relation)
+				$connection = $connection->getModel()->getConnection();
+			elseif ($connection instanceof \Illuminate\Database\Eloquent\Model)
+				$connection = $connection->getConnection();
+
+
+			return $connection->getQueryGrammar()->wrap($identifier);
+		}
+	}

@@ -30,4 +30,12 @@
 			$this->assertEquals('`test_table`.`id`', TestModel::fieldRaw('id'));
 		}
 
+		public function testQuoteIdentifier() {
+			$this->assertEquals('`id`', TestModel::quoteIdentifier('id'));
+		}
+
+		public function testQuoteIdentifier_segments() {
+			$this->assertEquals('`a_table`.`id`', TestModel::quoteIdentifier('a_table.id'));
+		}
+
 	}

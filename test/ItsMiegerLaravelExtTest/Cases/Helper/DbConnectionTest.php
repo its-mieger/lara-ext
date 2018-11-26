@@ -26,4 +26,7 @@
 
 			$this->assertSame($connection, db_connection(new TestModel()));
 		}
+
+
+		// TODO: test with relation
 	}

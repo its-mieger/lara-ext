@@ -31,7 +31,7 @@
 			$modelClass = get_called_class();
 			$model = new $modelClass;
 
-			return $model->getConnection()->getQueryGrammar()->wrap($model->getTable());
+			return static::quoteIdentifier($model->getTable());
 		}
 
 		/**
@@ -39,7 +39,7 @@
 		 * @param string $field The model field name
 		 * @return string The model field, eg. "table.field"
 		 */
-		public static function field($field) {
+		public static function field(string $field) {
 			$modelClass = get_called_class();
 			$model      = new $modelClass;
 
@@ -51,11 +51,23 @@
 		 * @param string $field The model field name
 		 * @return string The model field, eg. "`table`.`field`"
 		 */
-		public static function fieldRaw($field) {
+		public static function fieldRaw(string $field) {
 			$modelClass = get_called_class();
 			$model      = new $modelClass;
 
-			return $model->getConnection()->getQueryGrammar()->wrap("{$model->getTable()}.{$field}");
+			return static::quoteIdentifier("{$model->getTable()}.{$field}");
+		}
+
+		/**
+		 * Gets the given identifier for use in raw SQL expressions of the model's database connection
+		 * @param string $identifier The identifier name. May contain multiple segments separated by '.'
+		 * @return string The wrapped identifier eg. "`table`.`field`" or "`table`"
+		 */
+		public static function quoteIdentifier(string $identifier) {
+			$modelClass = get_called_class();
+			$model      = new $modelClass;
+
+			return $model->getConnection()->getQueryGrammar()->wrap($identifier);
 		}
 
 

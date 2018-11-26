@@ -246,4 +246,12 @@
 		 * @return string The model field, eg. "`table`.`field`"
 		 */
 		function db_field_raw($model, string $field) { }
+
+		/**
+		 * Gets the given identifier for use in raw SQL expressions
+		 * @param string|\Illuminate\Database\Connection|\Illuminate\Database\Eloquent\Relations\Relation|\Illuminate\Database\Eloquent\Model $connection The connection for which to get identifier for
+		 * @param string $identifier The identifier name. May contain multiple segments separated by '.'
+		 * @return string The wrapped identifier eg. "`table`.`field`" or "`table`"
+		 */
+		function db_quote_identifier($connection, string $identifier) { }
 	}
