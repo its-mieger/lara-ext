@@ -211,11 +211,18 @@
 		function cursor_get($cursor, $field, $default = null) { }
 
 		/**
-		 * Gets the model'stable name
+		 * Gets the model's table name
 		 * @param string|\Illuminate\Database\Eloquent\Model The model
 		 * @return string The table name
 		 */
 		function db_table($model) { }
+
+		/**
+		 * Gets the model's table name for use in raw SQL queries
+		 * @param string|\Illuminate\Database\Eloquent\Model The model
+		 * @return string The table name wrapped i
+		 */
+		function db_table_raw($model) { }
 
 		/**
 		 * Gets the model's connection
@@ -231,4 +238,12 @@
 		 * @return string The model field, eg. "table.field"
 		 */
 		function db_field($model, string $field) { }
+
+		/**
+		 * Gets the model's field name prefixed with the table name for use in raw SQL expressions
+		 * @param string|\Illuminate\Database\Eloquent\Model $model The model
+		 * @param string $field The model field name
+		 * @return string The model field, eg. "`table`.`field`"
+		 */
+		function db_field_raw($model, string $field) { }
 	}

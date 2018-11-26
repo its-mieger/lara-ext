@@ -10,6 +10,7 @@ So far this includes:
 * Improved helper functions
 * Eloquent extensions
 	* Mass-INSERT/UPDATE
+	* Easy identifier access
 
 It also includes a helper file for IDE auto completion.
 
@@ -53,8 +54,10 @@ Following macros extend the `Illuminate\Support\Collection`:
 | `joined`			| joins two collections and passes the tuples to a callback
 | `cursor_get`		| `data_get()` for collections
 | `db_table`		| gets a model's table name
+| `db_table_raw`		| gets a model's table name and quotes it for use in raw SQL expressions
 | `db_connection`	| gets a model's connection name
 | `db_field`		| prefixes a model's field name with the table name
+| `db_field_raw`	| prefixes a model's field name with the table name and quotes it for use in raw SQL expressions
  
 ## Helper improvements
 
@@ -152,11 +155,15 @@ each item:
 	// => 8
 	
 	
-### db_table()
+### db_table() and db_table_raw()
 
 Gets the table name of a given model:
 
 	db_table(User::class);
+	// => users
+	
+	db_table_raw(User::class);
+	// => `users`
 	
 	
 ### db_connection()
@@ -165,12 +172,15 @@ Gets the connection instance to use for a given model:
 
 	db_connection(User::class);
 	
-### db_field()
+### db_field() and db_field_raw()
 
 Gets the model field prefixed by the model's table name:
 
 	db_field(User::class, 'id');
 	// => users.id
+	
+	db_field_raw(User::class, 'id');
+	// => `users`.`id`
 	
 	
 	
@@ -185,7 +195,7 @@ and casts are applied to the inserted data as it would be done for single row op
 #### Examples
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Yadakhov\InsertOnDuplicateKey;
+use ItsMieger\LaravelExt\Model\InsertOnDuplicateKey;
 
 /**
  * Class User.
@@ -254,4 +264,39 @@ created_at and updated_at will *not* be updated automatically.  To update you ca
 
 ```php
 ['id' => 1, 'email' => 'user1@email.com', 'name' => 'User One', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]
+```
+
+
+### easy identifier access
+
+A trait which is meant to be added to eloquent models to access model identifiers in a more
+easy way: 
+
+#### Examples
+```php
+use Illuminate\Database\Eloquent\Model;
+use ItsMieger\LaravelExt\Model\Identifiers;
+
+/**
+ * Class User
+ */
+class User extends Model
+{
+    // The function is implemented as a trait.
+    use Identifiers;
+}
+
+
+User::table();
+// => users
+
+User::tableRaw();
+// => `users`
+
+User::field('id');
+// => users.id
+
+User::fieldRaw('id');
+// => `users`.`id`
+
 ```

@@ -10,9 +10,11 @@
 
 
 	use Illuminate\Database\Eloquent\Model;
+	use ItsMieger\LaravelExt\Model\Identifiers;
 
 	class TestModel extends Model
 	{
+		use Identifiers;
 
 		protected $table = 'test_table';
 	}

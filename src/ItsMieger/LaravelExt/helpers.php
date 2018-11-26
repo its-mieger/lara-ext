@@ -214,7 +214,7 @@
 	if (!function_exists('db_table')) {
 
 		/**
-		 * Gets the model'stable name
+		 * Gets the model's table name
 		 * @param string|\Illuminate\Database\Eloquent\Model The model
 		 * @return string The table name
 		 */
@@ -223,6 +223,21 @@
 				$model = new $model;
 
 			return $model->getTable();
+		}
+	}
+
+	if (!function_exists('db_table_raw')) {
+
+		/**
+		 * Gets the model's table name for use in raw SQL expressions
+		 * @param string|\Illuminate\Database\Eloquent\Model The model
+		 * @return string The table name
+		 */
+		function db_table_raw($model) {
+			if (is_string($model))
+				$model = new $model;
+
+			return $model->getConnection()->getQueryGrammar()->wrap($model->getTable());
 		}
 	}
 
@@ -257,5 +272,22 @@
 				$model = new $model;
 
 			return "{$model->getTable()}.{$field}";
+		}
+	}
+
+	if (!function_exists('db_field_raw')) {
+
+		/**
+		 * Gets the model's field name prefixed with the table name for use in raw SQL expressions
+		 * @param string|\Illuminate\Database\Eloquent\Model $model The model
+		 * @param string $field The model field name
+		 * @return string The model field, eg. "`table`.`field`"
+		 */
+		function db_field_raw($model, string $field) {
+			if (is_string($model))
+				$model = new $model;
+
+
+			return $model->getConnection()->getQueryGrammar()->wrap("{$model->getTable()}.{$field}");
 		}
 	}
