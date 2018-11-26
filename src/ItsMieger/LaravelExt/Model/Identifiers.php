@@ -9,6 +9,10 @@
 	namespace ItsMieger\LaravelExt\Model;
 
 
+	/**
+	 * Easy access to model identifier
+	 * @package ItsMieger\LaravelExt\Model
+	 */
 	trait Identifiers
 	{
 

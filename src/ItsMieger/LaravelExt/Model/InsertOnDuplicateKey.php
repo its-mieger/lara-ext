@@ -12,7 +12,7 @@
 	use Illuminate\Database\Eloquent\Model;
 
 	/**
-	 * Trait InsertOnDuplicateKey
+	 * mass INSERT/UPDATE for models
 	 * Original implementation can be found at: https://github.com/yadakhov/insert-on-duplicate-key by Yada Khov released under MIT license
 	 * @package ItsMieger\LaravelExt\Model
 	 */
