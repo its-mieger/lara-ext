@@ -11,6 +11,7 @@
 
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Query\Expression;
+	use Illuminate\Support\Str;
 
 	/**
 	 * Common SQL expression generation
@@ -122,20 +123,45 @@
 		}
 
 		/**
+		 * Generates a SQL cast(... AS ...) expression
+		 * @param Expression|string $expr The expression to be casted. If a string is passed, it will be interpreted as column name of the model's table
+		 * @param string $type The target cast type
+		 * @param string|null $alias The alias to use. If omitted and a column is passed, the column name is used as alias.
+		 * @return Expression  The expression
+		 */
+		public static function castExpr($expr, $type, $alias = null) {
+
+			$modelClass = get_called_class();
+			/** @var Model $model */
+			$model = new $modelClass;
+
+			$connection = $model->getConnection();
+
+			if (!preg_match('/^[A-Za-z0-9() ]+$/', $type))
+				throw new \InvalidArgumentException("Invalid cast type \"$type\" passed");
+
+			$castExp = $connection->raw('AS ' . Str::upper($type)) ;
+
+
+			return static::functionExpr('cast', $expr, $alias, null, $castExp);
+		}
+
+		/**
 		 * Generates a SQL function expression
 		 * @param string $function The raw function name
 		 * @param Expression|Expression[]|string|string[] $arguments The expression(s) to pass as argument(s). Strings will be interpreted as column names of the model's table
-		 * @param string|null $alias The alias to use. If omitted and a single column is passed, the column name is used as alias.
+		 * @param string|null|boolean $alias The alias to use. If omitted and a single column is passed, the column name is used as alias. If false, the alias is always empty
 		 * @param Expression|null $preArgSQL SQL expression to add before argument list, e.g. "DISTINCT"
+		 * @param Expression|null $postArgSQL SQL expression to add after argument list, e.g. "AS INTEGER"
 		 * @return Expression The expression
 		 */
-		public static function functionExpr(string $function, $arguments, string $alias = null, Expression $preArgSQL = null) {
+		public static function functionExpr(string $function, $arguments, $alias = null, Expression $preArgSQL = null, Expression $postArgSQL = null) {
 			$modelClass = get_called_class();
 			/** @var Model $model */
 			$model = new $modelClass;
 
 			// make alias the same as field name, if single field passed
-			if (!$alias && !is_array($arguments) && !($arguments instanceof Expression))
+			if (!$alias && $alias !== false && !is_array($arguments) && !($arguments instanceof Expression))
 				$alias = $arguments;
 
 			// make arguments array
@@ -154,11 +180,12 @@
 			}, $arguments);
 
 			// build SQL fragments
-			$preArgSQL = $preArgSQL ? (string)$preArgSQL . ' ' : '';
-			$argsSql   = implode(', ', $arguments);
-			$aliasSql  = $alias ? ' AS ' . static::quoteIdentifier($alias) : '';
+			$preArgSQL  = $preArgSQL ? (string)$preArgSQL . ' ' : '';
+			$postArgSQL = $postArgSQL ? ' ' . (string)$postArgSQL : '';
+			$argsSql    = implode(', ', $arguments);
+			$aliasSql   = $alias ? ' AS ' . static::quoteIdentifier($alias) : '';
 
-			return $model->getConnection()->raw( "$function($preArgSQL$argsSql)$aliasSql");
+			return $model->getConnection()->raw( "{$function}({$preArgSQL}{$argsSql}{$postArgSQL}){$aliasSql}");
 		}
 
 	}
