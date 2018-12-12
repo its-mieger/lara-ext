@@ -16,15 +16,12 @@
 
 	abstract class TestCase extends OrchestraTestCase
 	{
-        use CreatesTestingDatabase;
 
 		/**
 		 * Setup the test environment.
 		 */
 		public function setUp() {
 			parent::setUp();
-
-			$this->setupTestingMigrations(__DIR__ . '/Migrations');
 
 			Obj::resetMock();
 		}
