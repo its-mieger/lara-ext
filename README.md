@@ -49,8 +49,9 @@ Following macros extend the `Illuminate\Support\Collection`:
 | `buffer`			| creates a new `FlushingBuffer` instance
 | `chunked`			| `array_chunk()` for generators
 | `joined`			| joins two collections and passes the tuples to a callback
-| `cursor_get`		| `data_get()` for collections
-| `db_quote_identifier`	| quotes the given identifier for use in raw SQL expressions
+| `cursor_get`		| `data_get()` for iterators
+| `iterator_for`	| gets an iterator for the given value
+| `db_quote_identifier`	| quotes the given identifier for use in raw SQL expressions'
  
 ## Helper improvements
 
@@ -157,6 +158,13 @@ each item:
 	// => 7
 	// => 8
 	
+	
+### iterator_for()
+The `iterator_for()` helper creates an iterator for the given value. Iterators are returned as
+they are, for arrays an ArrayIterator is returned and all other values are returned as the
+first item of an array iterator, if they are not null. Passing null will return an EmptyIterator.
+
+	$iter = iterator_for(['a', 'b']);
 
 ### db_quote_identifier()
 

@@ -248,3 +248,27 @@
 			return $connection->getQueryGrammar()->wrap($identifier);
 		}
 	}
+
+	if (!function_exists('iterator_for')) {
+
+		/**
+		 * Function which creates an iterator for the given value. Iterators are returned as they are, for arrays an ArrayIterator is returned and all other values
+		 * are returned as the first item of an array iterator, if they are not null. Null will return an EmptyIterator
+		 * @param Iterator|array|mixed $value The value
+		 * @return Iterator The iterator for the value
+		 */
+		function iterator_for($value) {
+			if ($value instanceof \Iterator) {
+				return $value;
+			}
+			elseif (is_array($value)) {
+				return new \ArrayIterator($value);
+			}
+			elseif ($value !== null) {
+				return new \ArrayIterator([$value]);
+			}
+			else {
+				return new \EmptyIterator();
+			}
+		}
+	}
