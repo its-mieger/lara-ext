@@ -10,7 +10,7 @@
 
 
 	use Illuminate\Database\Query\Builder;
-	use ItsMiegerLaravelExtTest\Cases\TestCase;
+	use ItsMiegerLaravelExtTest\TestCase;
 	use ItsMiegerLaravelExtTest\Mock\WhereInMock;
 
 	class JoinedTest extends TestCase

@@ -10,7 +10,7 @@
 
 
 	use Illuminate\Support\Str;
-	use ItsMiegerLaravelExtTest\Cases\TestCase;
+	use ItsMiegerLaravelExtTest\TestCase;
 
 	class LaraExtServiceProviderTest extends TestCase
 	{

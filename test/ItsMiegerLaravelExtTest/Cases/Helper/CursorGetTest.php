@@ -9,7 +9,7 @@
 	namespace ItsMiegerLaravelExtTest\Cases\Helper;
 
 
-	use ItsMiegerLaravelExtTest\Cases\TestCase;
+	use ItsMiegerLaravelExtTest\TestCase;
 
 	class CursorGetTest extends TestCase
 	{

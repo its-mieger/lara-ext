@@ -6,20 +6,25 @@
 	 * Time: 11:08
 	 */
 
-	namespace ItsMiegerLaravelExtTest\Cases;
+	namespace ItsMiegerLaravelExtTest;
 
 
 	use ItsMieger\Obj\Obj;
 	use Orchestra\Testbench\TestCase as OrchestraTestCase;
 	use ItsMieger\LaravelExt\Provider\LaraExtServiceProvider;
+	use Orchestra\Testbench\Traits\CreatesApplication;
 
-	class TestCase extends OrchestraTestCase
+	abstract class TestCase extends OrchestraTestCase
 	{
+        use CreatesTestingDatabase;
+
 		/**
 		 * Setup the test environment.
 		 */
 		public function setUp() {
 			parent::setUp();
+
+			$this->setupTestingMigrations(__DIR__ . '/Migrations');
 
 			Obj::resetMock();
 		}

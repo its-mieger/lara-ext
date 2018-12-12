@@ -10,7 +10,7 @@
 
 
 	use ItsMieger\LaravelExt\Util\FlushingBuffer;
-	use ItsMiegerLaravelExtTest\Cases\TestCase;
+	use ItsMiegerLaravelExtTest\TestCase;
 
 	class ChunkedTest extends TestCase
 	{

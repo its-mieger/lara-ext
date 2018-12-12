@@ -10,6 +10,7 @@
 
 
 	use Illuminate\Support\Str;
+	use ItsMiegerLaravelExtTest\TestCase;
 
 	class StrMacrosTest extends TestCase
 	{

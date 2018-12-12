@@ -9,24 +9,25 @@
 	namespace ItsMiegerLaravelExtTest\Cases\Helper;
 
 
-	use ItsMiegerLaravelExtTest\Cases\TestCase;
+	use Illuminate\Support\Facades\DB;
+	use ItsMiegerLaravelExtTest\TestCase;
 	use ItsMiegerLaravelExtTest\Mock\TestModel;
 
 	class DbQuoteIdentifierTest extends TestCase
 	{
 		public function testWithNull() {
-			$this->assertEquals('`my_table`', db_quote_identifier('my_table'));
-			$this->assertEquals('`my_table`.`id`', db_quote_identifier('my_table.id'));
+			$this->assertEquals("\"my_table\"", db_quote_identifier('my_table'));
+			$this->assertEquals("\"my_table\".\"id\"", db_quote_identifier('my_table.id'));
 		}
 
 		public function testWithString() {
-			$this->assertEquals('`my_table`', db_quote_identifier('my_table', 'mysql'));
-			$this->assertEquals('`my_table`.`id`', db_quote_identifier('my_table.id', 'mysql'));
+			$this->assertEquals("\"my_table\"", db_quote_identifier('my_table', DB::connection()->getName()));
+			$this->assertEquals("\"my_table\".\"id\"", db_quote_identifier('my_table.id', DB::connection()->getName()));
 		}
 
 		public function testWithModel() {
-			$this->assertEquals('`my_table`', db_quote_identifier('my_table', new TestModel()));
-			$this->assertEquals('`my_table`.`id`', db_quote_identifier('my_table.id', new TestModel()));
+			$this->assertEquals("\"my_table\"", db_quote_identifier('my_table', new TestModel()));
+			$this->assertEquals("\"my_table\".\"id\"", db_quote_identifier('my_table.id', new TestModel()));
 		}
 
 		// TODO: test with relation

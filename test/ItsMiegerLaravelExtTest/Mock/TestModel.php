@@ -10,11 +10,9 @@
 
 
 	use Illuminate\Database\Eloquent\Model;
-	use ItsMieger\LaravelExt\Model\Expressions;
 
 	class TestModel extends Model
 	{
-		use Expressions;
 
 		protected $table = 'test_table';
 	}

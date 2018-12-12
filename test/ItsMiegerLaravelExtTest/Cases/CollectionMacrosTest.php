@@ -6,6 +6,7 @@
 	use ItsMieger\Obj\Contracts\Comparable;
 	use ItsMieger\Obj\Obj;
 	use ItsMieger\Obj\ObjectHelper;
+	use ItsMiegerLaravelExtTest\TestCase;
 
 	class CollectionMacrosTest extends TestCase
 	{

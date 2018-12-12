@@ -4,10 +4,12 @@
 	namespace ItsMieger\LaravelExt\Provider;
 
 
+	use ItsMieger\LaravelExt\Query\Builder;
 	use Illuminate\Support\ServiceProvider;
 
 	class LaraExtServiceProvider extends ServiceProvider
 	{
+
 		const PACKAGE_NAME = 'laraExt';
 
 		protected $packageRoot = __DIR__ . '/../../../..';
@@ -40,5 +42,8 @@
 		 */
 		public function register() {
 			$this->mergeConfigFrom($this->packageRoot . '/config/config.php', self::PACKAGE_NAME);
+
 		}
+
+
 	}

@@ -8,9 +8,6 @@ So far this includes:
 * String macros
 * Additional helpers
 * Improved helper functions
-* Eloquent extensions
-	* Mass-INSERT/UPDATE
-	* Easy identifier access
 
 It also includes a helper file for IDE auto completion.
 
@@ -18,7 +15,7 @@ It also includes a helper file for IDE auto completion.
 
 After updating composer, add the service provider to the providers array in config/app.php.
 
-This is not required if using automatic package discovery as enabled.
+This is not required if using automatic package discovery is enabled.
 
 	ItsMieger\LaravelExt\Provider\LaraExtServiceProvider::class,
 
@@ -53,11 +50,6 @@ Following macros extend the `Illuminate\Support\Collection`:
 | `chunked`			| `array_chunk()` for generators
 | `joined`			| joins two collections and passes the tuples to a callback
 | `cursor_get`		| `data_get()` for collections
-| `db_table`		| gets a model's table name
-| `db_table_raw`		| gets a model's table name and quotes it for use in raw SQL expressions
-| `db_connection`	| gets a model's connection name
-| `db_field`		| prefixes a model's field name with the table name
-| `db_field_raw`	| prefixes a model's field name with the table name and quotes it for use in raw SQL expressions
 | `db_quote_identifier`	| quotes the given identifier for use in raw SQL expressions
  
 ## Helper improvements
@@ -102,14 +94,24 @@ call the `flush()`-method to manually flush the buffer:
 The native `array_chunk()`-function is very useful when dealing with large data that cannot
 be processed at once. However it does not solve the problem that you might not even be able
 to load all the input data at once. Here the `chunked()`-helper function - which also
-accepts generators - comes in. See
-following example:
+accepts generators - comes in. See following example:
 	
 	$generator = function() { /* generator code */ };
 	
 	chunked($generator, 500, function($chunk) {
 		/* processing code */
 	});
+
+### chunked_generator()
+The `chunked_generator()`-function is very similar to the `chunked()`-function but returns
+a generator which yields all generators returned by the handler.
+
+	$in = function() { /* input generator code */ };
+
+	$generator = chunked_generator($in, 500, function($chunk) {
+		yield /* ... */
+	});
+	
 
 	
 ### joined()
@@ -155,24 +157,7 @@ each item:
 	// => 7
 	// => 8
 	
-	
-### db_table() and db_table_raw()
 
-Gets the table name of a given model:
-
-	db_table(User::class);
-	// => users
-	
-	db_table_raw(User::class);
-	// => `users`
-	
-	
-### db_connection()
-
-Gets the connection instance to use for a given model:
-
-	db_connection(User::class);
-	
 ### db_quote_identifier()
 
 Quotes the given identifier for use in raw SQL expressions:
@@ -183,137 +168,3 @@ Quotes the given identifier for use in raw SQL expressions:
 	db_quote_identifier('table.field');
 	// => `table`.`field`
 	
-### db_field() and db_field_raw()
-
-Gets the model field prefixed by the model's table name:
-
-	db_field(User::class, 'id');
-	// => users.id
-	
-	db_field_raw(User::class, 'id');
-	// => `users`.`id`
-	
-	
-	
-## Eloquent extensions
-
-
-### mass INSERT/UPDATE
-
-A trait which is meant to be added to eloquent models to perform mass-INSERT operations. Mutators
-and casts are applied to the inserted data as it would be done for single row operations. 
-
-#### Examples
-```php
-use Illuminate\Database\Eloquent\Model;
-use ItsMieger\LaravelExt\Model\InsertOnDuplicateKey;
-
-/**
- * Class User.
- */
-class User extends Model
-{
-    // The function is implemented as a trait.
-    use InsertOnDuplicateKey;
-}
-```
-
-##### Multi values insert
-```php
-    $users = [
-        ['id' => 1, 'email' => 'user1@email.com', 'name' => 'User One'],
-        ['id' => 2, 'email' => 'user2@email.com', 'name' => 'User Two'],
-        ['id' => 3, 'email' => 'user3@email.com', 'name' => 'User Three'],
-    ];
-```
-
-##### INSERT ON DUPLICATE KEY UPDATE
-
-```php
-    User::insertOnDuplicateKey($users);
-```
-```sql
-    -- produces this query
-    INSERT INTO `users`(`id`,`email`,`name`) VALUES
-    (1,'user1@email.com','User One'), (2,'user3@email.com','User Two'), (3,'user3email.com','User Three')
-    ON DUPLICATE KEY UPDATE `id` = VALUES(`id`), `email` = VALUES(`email`), `name` = VALUES(`name`)
-```
-
-```php
-    User::insertOnDuplicateKey($users, ['email']);
-```
-```sql
-    -- produces this query
-    INSERT INTO `users`(`id`,`email`,`name`) VALUES
-    (1,'user1@email.com','User One'), (2,'user3@email.com','User Two'), (3,'user3email.com','User Three')
-    ON DUPLICATE KEY UPDATE `email` = VALUES(`email`)
-```
-
-##### INSERT IGNORE
-```php
-    User::insertIgnore($users);
-```
-```sql
-    -- produces this query
-    INSERT IGNORE INTO `users`(`id`,`email`,`name`) VALUES
-    (1,'user1@email.com','User One'), (2,'user3@email.com','User Two'), (3,'user3email.com','User Three');
-```
-
-##### REPLACE INTO
-```php
-    User::replace($users);
-```
-```sql
-    -- produces this query
-    REPLACE INTO `users`(`id`,`email`,`name`) VALUES
-    (1,'user1@email.com','User One'), (2,'user3@email.com','User Two'), (3,'user3email.com','User Three');
-```
-
-#### created_at and updated_at fields.
-
-created_at and updated_at will *not* be updated automatically.  To update you can pass the fields in the insert array.
-
-```php
-['id' => 1, 'email' => 'user1@email.com', 'name' => 'User One', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]
-```
-
-
-### easy identifier access
-
-A trait which is meant to be added to eloquent models to access model identifiers in a more
-easy way: 
-
-#### Examples
-```php
-use Illuminate\Database\Eloquent\Model;
-use ItsMieger\LaravelExt\Model\Identifiers;
-
-/**
- * Class User
- */
-class User extends Model
-{
-    // The function is implemented as a trait.
-    use Identifiers;
-}
-
-
-User::table();
-// => users
-
-User::tableRaw();
-// => `users`
-
-User::field('id');
-// => users.id
-
-User::fieldRaw('id');
-// => `users`.`id`
-
-User::quoteIdentifier('field');
-// => `field`
-
-User::quoteIdentifier('mytable.field');
-// => `mytable`.`field`
-
-```

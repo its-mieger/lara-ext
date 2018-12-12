@@ -47,6 +47,23 @@
 		}
 	}
 
+	if (!function_exists('chunked_generator')) {
+
+		/**
+		 * Returns the a generator yielding the generated items from the given callback. The callback receives the data in chunks of given size
+		 * @param \Traversable|array|\Closure $data The data to split into chunks. May also be a closure returning the data
+		 * @param int $size The buffer size. You may pass 0 or a negative value if the buffer should not be flushed automatically.
+		 * @param callable $generator Handler function which will be called for each chunk. It will receive buffer contents as first parameter and is expected to return a generator.
+		 * @param callable $collectionResolver Resolver for the underlying collection. This is called each time an empty collection is initialized and must return an
+		 * empty collection instance. If omitted an array is used as underlying collection.
+		 * @return Generator
+		 */
+		function chunked_generator($data, $size, callable $generator, $collectionResolver = null) {
+
+			yield from (new \ItsMieger\LaravelExt\Util\ChunkedGenerator($data, $size, $generator, $collectionResolver))->consume();
+		}
+	}
+
 	if (!function_exists('joined')) {
 
 		/**
@@ -208,87 +225,6 @@
 			foreach (value($cursor) as $index => $curr) {
 				yield $fieldClosure ? $field($curr, $index) : data_get($curr, $field, $default);
 			}
-		}
-	}
-
-	if (!function_exists('db_table')) {
-
-		/**
-		 * Gets the model's table name
-		 * @param string|\Illuminate\Database\Eloquent\Model The model
-		 * @return string The table name
-		 */
-		function db_table($model) {
-			if (is_string($model))
-				$model = new $model;
-
-			return $model->getTable();
-		}
-	}
-
-	if (!function_exists('db_table_raw')) {
-
-		/**
-		 * Gets the model's table name for use in raw SQL expressions
-		 * @param string|\Illuminate\Database\Eloquent\Model The model
-		 * @return string The table name
-		 */
-		function db_table_raw($model) {
-			if (is_string($model))
-				$model = new $model;
-
-			return $model->getConnection()->getQueryGrammar()->wrap($model->getTable());
-		}
-	}
-
-	if (!function_exists('db_connection')) {
-
-		/**
-		 * Gets the model's connection
-		 * @param string|\Illuminate\Database\Eloquent\Model $model The model
-		 * @return \Illuminate\Database\Connection The connection
-		 */
-		function db_connection($model) {
-			if ($model instanceof \Illuminate\Database\Eloquent\Relations\Relation)
-				$model = $model->getModel();
-			elseif (is_string($model))
-				$model = new $model;
-
-			return $model->getConnection();
-		}
-
-	}
-
-	if (!function_exists('db_field')) {
-
-		/**
-		 * Gets the model's field name prefixed with the table name
-		 * @param string|\Illuminate\Database\Eloquent\Model $model The model
-		 * @param string $field The model field name
-		 * @return string The model field, eg. "table.field"
-		 */
-		function db_field($model, string $field) {
-			if (is_string($model))
-				$model = new $model;
-
-			return "{$model->getTable()}.{$field}";
-		}
-	}
-
-	if (!function_exists('db_field_raw')) {
-
-		/**
-		 * Gets the model's field name prefixed with the table name for use in raw SQL expressions
-		 * @param string|\Illuminate\Database\Eloquent\Model $model The model
-		 * @param string $field The model field name
-		 * @return string The model field, eg. "`table`.`field`"
-		 */
-		function db_field_raw($model, string $field) {
-			if (is_string($model))
-				$model = new $model;
-
-
-			return $model->getConnection()->getQueryGrammar()->wrap("{$model->getTable()}.{$field}");
 		}
 	}
 

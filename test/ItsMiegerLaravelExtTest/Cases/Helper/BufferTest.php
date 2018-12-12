@@ -11,7 +11,7 @@
 
 	use Illuminate\Support\Collection;
 	use ItsMieger\LaravelExt\Util\FlushingBuffer;
-	use ItsMiegerLaravelExtTest\Cases\TestCase;
+	use ItsMiegerLaravelExtTest\TestCase;
 
 	class BufferTest extends TestCase
 	{
