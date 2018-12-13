@@ -272,3 +272,42 @@
 			}
 		}
 	}
+
+	if (!function_exists('group_by_consecutive')) {
+
+		/**
+		 * Groups data from given iterator or array by a given key. A new group is started as soon as an item's group value does not match the last item's group value.
+		 * Therefore same group values must occur consecutively in the input for correct output grouping. Group values are compared using strict comparison.
+		 * @param array|Traversable $data The data
+		 * @param string|string[]|Closure $groupBy The key path as string with '.' as separator or an array with the path segments. Also a Closure is supported which receives the current item and must return the group value
+		 * @return Generator|array
+		 */
+		function group_by_consecutive($data, $groupBy) {
+
+			$lastGroup         = null;
+			$groupByIsCallback = ($groupBy instanceof Closure);
+			$groupItems        = [];
+			foreach ($data as $curr) {
+
+				// retrieve group value for current item
+				$currGroup = ($groupByIsCallback ? $groupBy($curr) : data_get($curr, $groupBy));
+
+				// yield last group and start new group, if group value changed
+				if ($currGroup !== $lastGroup) {
+					if ($groupItems)
+						yield $groupItems;
+
+					$groupItems = [];
+					$lastGroup  = $currGroup;
+				}
+
+				// append item to current group
+				$groupItems[] = $curr;
+
+			}
+
+			// emit last group if not empty
+			if ($groupItems)
+				yield $groupItems;
+		}
+	}

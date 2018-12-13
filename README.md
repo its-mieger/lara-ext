@@ -51,6 +51,7 @@ Following macros extend the `Illuminate\Support\Collection`:
 | `joined`			| joins two collections and passes the tuples to a callback
 | `cursor_get`		| `data_get()` for iterators
 | `iterator_for`	| gets an iterator for the given value
+| `group_by_consecutive`	| groups data by given field (requires consecutive order of group values)
 | `db_quote_identifier`	| quotes the given identifier for use in raw SQL expressions'
  
 ## Helper improvements
@@ -165,6 +166,20 @@ they are, for arrays an ArrayIterator is returned and all other values are retur
 first item of an array iterator, if they are not null. Passing null will return an EmptyIterator.
 
 	$iter = iterator_for(['a', 'b']);
+	
+### group_by_consecutive()
+
+The `group_by_consecutive()` helper groups data from given iterator or array by a given key.
+A new group is started as soon as an item's group value does not match the last item's
+group value. Therefore same group values must occur consecutively in the input for correct
+output grouping. Group values are compared using strict comparison.
+
+	$data = [ ['x' => 15, 'y' => 'a'], ['x' => 16, 'y' => 'a'], ['x' => 17, 'y' => 'b'] ];
+
+	$iter = group_by_consecutive($data, 'y');
+	
+	// => [ ['x' => 15, 'y' => 'a'], ['x' => 16, 'y' => 'a'] ]
+	// => [ ['x' => 17, 'y' => 'b'] ]
 
 ### db_quote_identifier()
 
