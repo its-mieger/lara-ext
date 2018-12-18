@@ -228,6 +228,21 @@
 		}
 	}
 
+	if (!function_exists('mapped')) {
+
+		/**
+		 * Generates new elements passing each item to the callback. Keys are preserved
+		 * @param \Traversable|array $cursor The cursor or collection
+		 * @param callable $callback The callback which returns the new element
+		 * @return Generator
+		 */
+		function mapped($cursor, callable $callback) {
+			foreach ($cursor as $i => $curr) {
+				yield $i => call_user_func($callback, $curr);
+			}
+		}
+	}
+
 	if (!function_exists('db_quote_identifier')) {
 
 		/**

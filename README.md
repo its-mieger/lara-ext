@@ -48,6 +48,7 @@ Following macros extend the `Illuminate\Support\Collection`:
 |-------------------| ------------
 | `buffer`			| creates a new `FlushingBuffer` instance
 | `chunked`			| `array_chunk()` for generators
+| `mapped`			| `array_map()` for generators
 | `joined`			| joins two collections and passes the tuples to a callback
 | `cursor_get`		| `data_get()` for iterators
 | `iterator_for`	| gets an iterator for the given value
@@ -114,6 +115,13 @@ a generator which yields all generators returned by the handler.
 		yield /* ... */
 	});
 	
+### mapped()
+The `mapped()`-function behaves like the `array_map()`-function but may also be used
+with generators:
+
+	$generator = function() { /* generator code */ };
+	
+	$mappedGenerator = mapped($generator, function($v) { /* mapping code */ });
 
 	
 ### joined()
