@@ -82,6 +82,21 @@
 		}
 
 		/**
+		 * Add multiple items to the buffer
+		 * @param array|\Traversable $items The items
+		 * @param bool $maintainKeys True if to maintain keys
+		 * @return $this
+		 */
+		public function addMultiple($items, bool $maintainKeys = false) {
+
+			foreach($items as $key => $item) {
+				$this->add($item, $maintainKeys ? $key : null);
+			}
+
+			return $this;
+		}
+
+		/**
 		 * Returns if the buffer item count
 		 * @return int The number of items in the buffer
 		 */

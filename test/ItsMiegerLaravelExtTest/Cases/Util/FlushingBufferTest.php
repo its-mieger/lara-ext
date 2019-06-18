@@ -265,4 +265,32 @@
 			$buffer->flush();
 			$this->assertEquals(0, $buffer->count());
 		}
+
+		public function testAddMultiple() {
+			$buffer = new FlushingBuffer(3, function () {
+			});
+
+			$this->assertEquals(0, $buffer->count());
+			$this->assertSame($buffer, $buffer->addMultiple(['A', 'B']));
+			$this->assertEquals(2, $buffer->count());
+			$this->assertSame($buffer, $buffer->addMultiple(['C', 'D']));
+			$this->assertEquals(1, $buffer->count());
+			$buffer->flush();
+			$this->assertEquals(0, $buffer->count());
+		}
+
+		public function testAddMultiple_withKeys() {
+			$buffer = new FlushingBuffer(3, function () {
+			});
+
+			$this->assertEquals(0, $buffer->count());
+			$this->assertSame($buffer, $buffer->addMultiple(['k1' => 'A', 'k2' => 'B'], true));
+			$this->assertEquals(2, $buffer->count());
+			$this->assertSame($buffer, $buffer->addMultiple(['k1' => 'C', 'k2' => 'D'], true));
+			$this->assertEquals(2, $buffer->count());
+			$this->assertSame($buffer, $buffer->addMultiple(['k3' => 'C', 'k4' => 'D'], true));
+			$this->assertEquals(1, $buffer->count());
+			$buffer->flush();
+			$this->assertEquals(0, $buffer->count());
+		}
 	}
