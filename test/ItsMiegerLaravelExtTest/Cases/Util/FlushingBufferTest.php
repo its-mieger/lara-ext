@@ -246,4 +246,23 @@
 			$buffer->add('A');
 			$buffer->add('B');
 		}
+
+		public function testAddWithKey() {
+			$buffer = new FlushingBuffer(3, function () {
+			});
+
+			$this->assertEquals(0, $buffer->count());
+			$buffer->add('A', 'k-1');
+			$this->assertEquals(1, $buffer->count());
+			$buffer->add('B', 'k-2');
+			$this->assertEquals(2, $buffer->count());
+			$buffer->add('C', 'k-2');
+			$this->assertEquals(2, $buffer->count());
+			$buffer->add('D', 'k-3');
+			$this->assertEquals(0, $buffer->count());
+			$buffer->add('E', 'k-1');
+			$this->assertEquals(1, $buffer->count());
+			$buffer->flush();
+			$this->assertEquals(0, $buffer->count());
+		}
 	}

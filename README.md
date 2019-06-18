@@ -93,6 +93,16 @@ call the `flush()`-method to manually flush the buffer:
 	$b->flush();
 	
 	
+You may also specify a key, if you want to replace elements in the buffer at given key. 
+
+	$b = buffer(2, function(data) { /* send data */ });
+	$b->add(1, 'key1');
+	$b->add(2, 'key1');
+
+Of course replacing and existing element does not increase buffer size and therefore does
+not cause a buffer flush.
+	
+	
 ### chunked()
 The native `array_chunk()`-function is very useful when dealing with large data that cannot
 be processed at once. However it does not solve the problem that you might not even be able

@@ -52,13 +52,27 @@
 		/**
 		 * Adds the given item to the buffer
 		 * @param mixed $item The item
+		 * @param int|string|null $key The key. If passed the given key is used for insert into collection
 		 * @return $this This instance
 		 */
-		public function add($item) {
+		public function add($item, $key = null) {
 
-			// add item
-			$this->data[] = $item;
-			++$this->dataCount;
+			if ($key !== null) {
+				if (array_key_exists($key, $this->data)) {
+					$this->data[$key] = $item;
+				}
+				else {
+					$this->data[$key] = $item;
+					++$this->dataCount;
+				}
+			}
+			else {
+				// add item
+				$this->data[] = $item;
+				++$this->dataCount;
+			}
+
+
 
 			// do we have to flush the buffer?
 			if ($this->bufferSize > 0 && $this->dataCount >= $this->bufferSize)
