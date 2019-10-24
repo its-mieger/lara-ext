@@ -166,6 +166,16 @@
 
 			}
 
+			/**
+			 * Replaces the line breaks from the given string
+			 * @param string|null $subject The subject
+			 * @param string|null $replace The string to replace line breaks with
+			 * @return string|null The string with all linebreaks replaced
+			 */
+			public static function replaceLineBreaks(?string $subject, ?string $replace = ' ') {
+
+			}
+
 		}
 
 		/**

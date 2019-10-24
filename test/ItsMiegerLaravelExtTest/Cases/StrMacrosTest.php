@@ -113,4 +113,24 @@
 			$this->assertSame('b', $vD);
 			$this->assertSame('c', $vE);
 		}
+
+		public function testReplaceLineBreaks() {
+
+			$this->assertSame('a b c d', Str::replaceLineBreaks("a\rb\r\nc\nd"));
+		}
+
+		public function testReplaceLineBreaks_withReplaceString() {
+
+			$this->assertSame('a,b,c,d', Str::replaceLineBreaks("a\rb\r\nc\nd", ','));
+		}
+
+		public function testReplaceLineBreaks_withNullReplaceString() {
+
+			$this->assertSame('abcd', Str::replaceLineBreaks("a\rb\r\nc\nd", null));
+		}
+
+		public function testReplaceLineBreaks_nullInput() {
+
+			$this->assertSame(null, Str::replaceLineBreaks(null));
+		}
 	}

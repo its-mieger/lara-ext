@@ -41,6 +41,7 @@ Following macros extend the `Illuminate\Support\Collection`:
 | Macro 			| Description
 |-------------------| ------------
 | `extract`			| as explode but guarantees a given result array length, eg.: `[$a, $b] = Str::extract('a:b:c', ':',  2)`
+| `replaceLineBreaks`| Replaces all line breaks (Linux, Windows and Mac (old and OS X)) in a string 
  
 ## Helpers
 

@@ -27,3 +27,12 @@
 			return array_merge(array_fill(0, $absLength - $numParts, $defaultValue), $sp);
 		}
 	});
+
+	Str::macro('replaceLineBreaks', function(?string $subject, ?string $replace = ' ') {
+
+		if ($subject === null)
+			return null;
+
+		return str_replace(["\r\n", "\r", "\n"], $replace, $subject);
+
+	});
